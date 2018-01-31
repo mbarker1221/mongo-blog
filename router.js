@@ -1,19 +1,17 @@
 const express = require('express');
- const router = express.Router();
- 
- const bodyParser = require('body-parser');
- const jsonParser = bodyParser.json();
- 
- const {BlogPosts} = require('./models.js');
+const router = express.Router();
 
- BlogPosts.create('What I did last summer', 'Too much to tell', 'M.Barker');
- BlogPosts.create('My vacation', 'The trip began as many do, with a long car ride', 'M.Barker');
- 
- router.get('/posts', (req, res) => {
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
+
+
+const {BlogPost} = require('./models.js');
+
+router.get('/Post', (req, res) => {
     res.json(BlogPosts.get());
 });
 
-router.post('/posts', jsonParser, (req, res) => {
+router.post('/', jsonParser, (req, res) => {
 
     const requiredFields = ['title', 'content', 'author'];
 
@@ -28,7 +26,7 @@ router.post('/posts', jsonParser, (req, res) => {
     res.status(201).json(newBlog)
 });
 
-router.put('/posts/:id', jsonParser, (req, res) => {
+router.put('/:id', jsonParser, (req, res) => {
         const requiredFields = ['title', 'content', 'author'];
         for (let i = 0; i < requiredFields.length; i++) {
             const field = requiredFields[i];
@@ -52,7 +50,7 @@ router.put('/posts/:id', jsonParser, (req, res) => {
     res.status(204).end();
 });
 
-router.delete('/posts/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     BlogPosts.delete(req.params.id);
     res.status(204).end();
 });
