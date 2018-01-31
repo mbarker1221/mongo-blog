@@ -23,7 +23,7 @@ let server;
 
 function runServer(databaseUrl, port=PORT) {
   return new Promise((resolve, reject) => {
-    mongoose.connect(databaseUrl, {useMongoClient: true}, err => {
+    mongoose.connect(databaseUrl, err => {
       if (err) {
         return reject(err);
       }
@@ -37,11 +37,9 @@ function runServer(databaseUrl, port=PORT) {
    title: 'New Blog',
    content: 'Some words lalala',
  }
- console.log(newPost);
- console.log("creating new post");
+ 
 BlogPost.create(newPost).then((post)=>{
-  console.log("created new post");
-  console.log(post.api())
+ 
 }).catch(()=> console.log('error')) 
 
 
@@ -55,8 +53,6 @@ BlogPost.create(newPost).then((post)=>{
     });
   });
 }
-
-// `closeServer` function is here in original code
 
 if (require.main === module) {
   runServer(DATABASE_URL).catch(err => console.error(err));
