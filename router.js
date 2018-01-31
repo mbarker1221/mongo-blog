@@ -9,11 +9,11 @@ const express = require('express');
  BlogPosts.create('What I did last summer', 'Too much to tell', 'M.Barker');
  BlogPosts.create('My vacation', 'The trip began as many do, with a long car ride', 'M.Barker');
  
- router.get('/', (req, res) => {
+ router.get('/posts', (req, res) => {
     res.json(BlogPosts.get());
 });
 
-router.post('/', jsonParser, (req, res) => {
+router.post('/posts', jsonParser, (req, res) => {
 
     const requiredFields = ['title', 'content', 'author'];
 
@@ -28,7 +28,7 @@ router.post('/', jsonParser, (req, res) => {
     res.status(201).json(newBlog)
 });
 
-router.put('/:id', jsonParser, (req, res) => {
+router.put('/posts/:id', jsonParser, (req, res) => {
         const requiredFields = ['title', 'content', 'author'];
         for (let i = 0; i < requiredFields.length; i++) {
             const field = requiredFields[i];
@@ -52,7 +52,7 @@ router.put('/:id', jsonParser, (req, res) => {
     res.status(204).end();
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/posts/:id', (req, res) => {
     BlogPosts.delete(req.params.id);
     res.status(204).end();
 });

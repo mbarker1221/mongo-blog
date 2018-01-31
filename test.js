@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const expect=chai.expect;
 
-const {app, runServer, closeServer} = require('../server');
+const {app, runServer, closeServer} = require('/server.js');
 const should = chai.should();
 
 chai.use(chaiHttp);
@@ -20,7 +20,7 @@ describe('BlogPosts', function() {
   it('should list blog titles on GET', function() {
    
     return chai.request(app)
-      .get('/blogPosts')
+      .get('BlogPosts')
       .then(function(res) {
 
         expect(res).to.have.status(200);
@@ -38,13 +38,13 @@ describe('BlogPosts', function() {
   it('should add a blog post on POST', function() {
     const newBlog = { 
       title: 'my blog', 
-      body: ['It was just another day at the office...'], 
+      content: ['It was just another day at the office...'], 
       author: 'M.Barker'};
 
-    const expectedKeys = ['id', 'publishDate'].concat(Object.keys(newBost));
+    const expectedKeys = ['title', 'content', 'author'].concat(Object.keys(newPost));
 
     return chai.request(app)
-      .post('/blogPosts')
+      .post('/posts/:id')
       .send(newBlog)
       .then(function(res) {
         expect(res).to.have.status(200);
@@ -68,12 +68,12 @@ describe('BlogPosts', function() {
 
     return chai.request(app)
      
-      .get('/BlogPosts')
+      .get('/posts')
       .then(function(res) {
         updateData.id = res.body[0].id;
 
         return chai.request(app)
-          .put(`/BlogPosts/${updateData.id}`)
+          .put(`/posts/${updateData.id}`)
           .send(updateData)
       })
       .then(function(res) {
@@ -87,10 +87,10 @@ describe('BlogPosts', function() {
   it('should delete blog on DELETE', function() {
     return chai.request(app)
      
-      .get('/BlogPosts')
+      .get('/posts')
       .then(function(res) {
         return chai.request(app)
-          .delete(`/BlogPosts/${res.body[0].id}`)
+          .delete(`/posts/${res.body[0].id}`)
       })
       .then(function(res) {
         expect(res).to.have.status(204);
