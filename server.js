@@ -7,13 +7,12 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const {DATABASE_URL, PORT} = require('./config');
-const {BlogPost} = require('./models');
+const {BlogPost} = require('./router.js');
 
 const app = express();
 
 app.use(morgan('common'));
 app.use(bodyParser.json());
-
 
 app.get('/posts', (req, res) => {
   BlogPost.find() {
@@ -88,13 +87,6 @@ app.put('/posts/:id', (req, res) => {
     .catch(err => res.status(500).json({message: 'error'}));
 });
 
-app.delete('/:id', (req, res) => {
-  BlogPost.findByIdAndRemove(req.params.id){
-    .then(() => {
-      console.log(`Deleted blog post with id \`${req.params.id}\``);
-      res.status(204).end();
-    });
-};
 
 let server;
 
