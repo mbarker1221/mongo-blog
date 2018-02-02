@@ -13,9 +13,11 @@ const app = express();
 
 app.use(morgan('common'));
 app.use(bodyParser.json());
+app.use('/posts', {BlogPost});
 
 app.get('/posts', (req, res) => {
-  BlogPost.find() {
+  BlogPost
+  .find() {
     .then(posts => {
       res.json(posts.map(post => post.serialize()));
     })
@@ -26,7 +28,8 @@ app.get('/posts', (req, res) => {
 };
 
 app.get('/posts/:id', (req, res) => {
-  BlogPost.findById(req.params.id)
+  BlogPost
+  .findById(req.params.id)
     .then(post => res.json(post.serialize()))
     .catch(err => {
       console.error(err);
@@ -44,7 +47,8 @@ app.post('/posts', (req, res) => {
       return res.status(400).send(message);
     }
   }
-  BlogPost.create({
+  BlogPost
+  .create({
       title: req.body.title,
       content: req.body.content,
       author: req.body.author
@@ -57,7 +61,8 @@ app.post('/posts', (req, res) => {
 });
 
 app.delete('/posts/:id', (req, res) => {
-  BlogPost.findByIdAndRemove(req.params.id) {
+  BlogPost
+  .findByIdAndRemove(req.params.id) {
     .then(() => {
       res.status(204).json({message: 'success'});
     })
@@ -82,7 +87,8 @@ app.put('/posts/:id', (req, res) => {
     }
   });
 
-  BlogPost.findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
+  BlogPost
+  .findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
     .then(updatedPost => res.status(204).end())
     .catch(err => res.status(500).json({message: 'error'}));
 });
@@ -127,3 +133,4 @@ if (require.main === module) {
 }
 
 module.exports = {runServer, app, closeServer};
+
