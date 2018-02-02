@@ -71,7 +71,7 @@ describe('get', function() {
    });
 });
 
-describe('POST', function() {
+describe('post', function() {
   it('should add a blog post on POST', function() {
     const newBlog = { 
        author: {
